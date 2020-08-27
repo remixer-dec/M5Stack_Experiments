@@ -75,5 +75,5 @@ def Demo():
     lcd.setRotation(3)
     lcd.clear()
     lcd.font(lcd.FONT_UNICODE)
-	t = Ticker("This is a very long text", 0xffffff, sliding=False, delay=2)
-	tt = Ticker("The line can be longer and can go faster and can even have unicodэ symbols", 0x85fa92, y=20, speed=100, delay=10)
+    t = Ticker("This is a very long text", 0xffffff, sliding=False, delay=2)
+    tt = Ticker("The line can be longer and can go faster and can even have unicodэ symbols", 0x85fa92, y=20, speed=100, delay=10)
