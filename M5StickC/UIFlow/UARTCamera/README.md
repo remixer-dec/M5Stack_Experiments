@@ -16,6 +16,6 @@ Solution: read received byte array and store its data in a typed int array, whic
 Solution: append to array only amount of data that can be divided by 4, which is the number of bytes for int in bytearray.  
   
 5) Transferring data via UART is the slowest part of the process.  
-Solution: not solved yet. In theory ```@micropython.viper``` can speed up things, but you need to somehow using pointers concatenate byte arrays. In addition, as I understand, MaixPy does not support bult in decorators. Built-in zlib module can be used only for decompression.
+Solution: not solved yet. In theory ```@micropython.viper``` can speed up things, but you need to somehow using pointers concatenate byte arrays. In addition, as I understand, MaixPy does not support built-in decorators. Built-in zlib module can be used only for decompression.
   
 UnitV code is [here](https://github.com/remixer-dec/M5Stack_Experiments/blob/master/UnitV/MaixPy/UARTCamera)

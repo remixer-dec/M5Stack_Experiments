@@ -3,7 +3,7 @@ from machine import Timer
 
 class Ticker:
     _count = 0
-    def __init__(self, text, color, rotation=3, sliding = True, limit=None, speed=250, x=0, y=0, delay=0):
+    def __init__(self, text, color, rotation=3, sliding = True, limit=None, speed=250, x=0, y=0, delay=0, multiline=False):
         self._iterator = 0
         self._itdir = 1
         self._delayState = 0
@@ -16,9 +16,29 @@ class Ticker:
         self.rotation = rotation
         self.limit = limit if limit else (7 if rotation % 2 == 0 else 14)
         self.timer = Timer(716839 + Ticker._count)
-        self.timer.init(period=speed, mode=Timer.PERIODIC, callback=self._showText)
+        if multiline:
+            self._iterators = [0] * len(text)
+            self.timer.init(period=speed, mode=Timer.PERIODIC, callback=self._showMultiline)
+        else:
+            self.timer.init(period=speed, mode=Timer.PERIODIC, callback=self._showText)
         Ticker._count += 1
-    
+
+    @micropython.native    
+    def _showMultiline(self, timercallbackvar=None):
+        y = self.y
+        lines = self.text
+        i = 0
+        for line in lines:
+            #lcd.fillRect(self.x, self.y, 80, 16, 0)
+            self.text = line
+            self._iterator = self._iterators[i]
+            self._showText()
+            self.y += 16
+            self._iterators[i] = self._iterator
+            i += 1
+        self.y = y
+        self.text = lines
+
     @micropython.native    
     def _showText(self, timercallbackvar=None):
         text = self.text
@@ -51,12 +71,9 @@ class Ticker:
     def stop(self):
         self.timer.deinit()
 
-#remove the lines bellow if you want to use this as a class
-def UISetup():
+def Demo():
     lcd.setRotation(3)
     lcd.clear()
     lcd.font(lcd.FONT_UNICODE)
-
-UISetup()
-t = Ticker("This is a very long text", 0xffffff, sliding=False, delay=2)
-tt = Ticker("The line can be longer and can go faster and can even have unicodэ symbols", 0x85fa92, y=20, speed=100, delay=10)
+	t = Ticker("This is a very long text", 0xffffff, sliding=False, delay=2)
+	tt = Ticker("The line can be longer and can go faster and can even have unicodэ symbols", 0x85fa92, y=20, speed=100, delay=10)
