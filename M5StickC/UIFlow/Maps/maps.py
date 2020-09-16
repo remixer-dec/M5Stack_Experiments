@@ -7,14 +7,16 @@ from array import array
 wifi.connect()
 del wifi
 
-
 def getMap(lon, lat, zoom, pitch):
     import urequests as rq
+    
+    USE_YANDEX = True
     MAPBOX_TOKEN = ''
     HEIGHT = 148
-    return rq.get(
-        'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/{},{},{},{},{}/80x{}?access_token={}'
-        .format(lon, lat, zoom, 0, pitch, HEIGHT, MAPBOX_TOKEN)).content
+    
+    url = 'https://static-maps.yandex.ru/1.x/?ll={lon},{lat}&z={zoom}&l=map&size=80,{height}' if USE_YANDEX \
+    else 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/{lon},{lat},{zoom},{rad},{pitch}/80x{height}?access_token={mbt}'
+    return rq.get(url.format(lon=lon, lat=lat, zoom=zoom, rad=0, pitch=pitch, height=HEIGHT, mbt=MAPBOX_TOKEN)).content
 
 
 def drawControls():
