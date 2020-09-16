@@ -4,9 +4,9 @@
 * browse top streams and games
 * preview their image, channel name and viewer count
 * join selected or entered chat room and read chat messages
-### What can't yo do with it? 
+### What can't you do with it? 
 * play streams and videos
-* display emotes in the chat
+* view emotes in the chat
 
 
 ## Configuration
@@ -15,7 +15,7 @@
 
 Configuration is stored in ```tcfg``` dictionary.  
 **clientID** - (str) twitch client ID  
-**tickers** - (bool) uses tickers to scroll each line horizontally, othervise scroll all messages vertically.  
+**tickers** - (bool) uses tickers to scroll each line horizontally, othervise scrolls all messages vertically.  
 **textBG** - (int or False), text color used as a background color of channel/game name text, works weird with UIFlow auto line-breaks  
   
 ### This project requires the following external modules:
