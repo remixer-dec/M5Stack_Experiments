@@ -137,7 +137,7 @@ def BSIApp():
             if len(t['times']) > 0:
                 if mode == 0:
                     target = getBusTimeData(t['times'][0])
-                    lcd.text(32, offsetY, target['text'], 0)
+                    lcd.text(38, offsetY, target['text'], 0)
                 else:
                     currentTime = info['data']['currentTime'] // 1000 + info['data']['tzOffset']
                     for k,v in enumerate(t['times']):
