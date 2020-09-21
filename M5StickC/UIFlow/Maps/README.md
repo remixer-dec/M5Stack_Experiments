@@ -6,7 +6,7 @@ This app is using [OpenStreetMaps](https://www.openstreetmap.org/copyright "Open
 You need to set up MapBox API token before using the app, you can get one [here](https://www.mapbox.com/maps/satellite/#the-data), by clicking "start building". Or you can change map provider to Yandex, by editing the configuration ```USE_YANDEX = True```
 
 ### Requirements
-This project requires the following external modules:
+This project requires the following external modules:  
 [mpy-img-decoder](https://github.com/remixer-dec/mpy-img-decoder) - custom PNG decoder that supports showing files without writing them to flash  
 [accelKeyboard](https://github.com/remixer-dec/M5Stack_Experiments/tree/master/M5StickC/UIFlow/AccelerometerKeyboard) - a QWERTY keyboard module that uses accelerometer to input location  
 [wifi](https://github.com/remixer-dec/M5Stack_Experiments/blob/master/M5StickC/UIFlow/TwitchClient/wifi.py) - a simple module to connect to a wifi network, can be replaced with similar built-in UIFlow functionality.  

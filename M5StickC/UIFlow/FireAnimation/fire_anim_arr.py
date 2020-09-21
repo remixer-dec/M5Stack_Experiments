@@ -33,35 +33,38 @@ def init():
     palette = [rgb_to_int(hsl_to_rgb([x // 3, 100, min(100, (x * 100 // 255) *2)])) for x in range(0, 255)]
         
 @micropython.viper
-def fireManager(fire, xo, yo, wo, ho):
-    x = int(xo)
-    y = int(yo)
-    w = int(wo)
-    h = int(ho)
+def fireManager(fire, x:int, y:int, w:int, h:int):
     fire[y][x] = int(((\
               int(fire[(y + 1) % h][(x - 1 + w) % w]) \
             + int(fire[(y + 2) % h][(x) % w]) \
             + int(fire[(y + 1) % h][(x + 1) % w]) \
             + int(fire[(y + 3) % h][(x) % w])) * 64) // 257)
-    
 
 @micropython.viper
-def render(fire, wo, ho):
-    w = int(wo)
-    h = int(ho)
+def calcFire(fire, w:int, h:int):
+    for y in range(0, h-1):
+        for x in range(0, w):
+            fireManager(fire, x, y, w, h)
+
+@micropython.viper
+def render(fire, w:int, h:int):
     for x in range(0, w):
         fire[h-1][x] = randint(0,255)
     for y in range(0, h-1):
         for x in range(0, w):
-            fireManager(fire, x, y, w, h)
-            lcd.drawPixel(x, y, palette[int(fire[y][x])])
+            px = int(palette[int(fire[y][x])])
+            if px == 0:
+                pass
+            else:
+                lcd.drawPixel(x, y, px)
 
 @micropython.viper
 def renderer(fire):
     while 1:
-        #start = int(time.ticks_us())
+        #start = int(time.ticks_ms())
+        calcFire(fire, int(w), int(h))
         render(fire, int(w), int(h))
-        #end = int(time.ticks_us())
+        #end = int(time.ticks_ms())
         #print(end - start) #frametime
 
 init()
