@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>M5StickC+UnitV IPCam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <base href="http://192.168.1.32"> -->
+    <style>
+img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+body {
+    background: #345d67;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+.inner,.outer {
+    display: flex;
+    width: fit-content;
+    min-width: 352px;
+    min-height: 200px;
+    background: rgba(0,0,0,.12);
+    flex-flow: column;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    margin: 1em auto;
+    border-radius: 10px;
+}
+.inner {
+    margin: 0 0 1em 0;
+}
+.outer {
+    padding: 0 0 1em 0;
+    font-variant: all-petite-caps;
+}
+select {
+    background: #35606b;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 4px;
+    margin-top: 10px;
+    outline: none;
+    font-size: 14px;
+}
+.sliders {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+input[type="range"] {
+    -webkit-appearance: none !important;
+    background-color: #35606b;
+    border: 1px solid #35606b;
+    border-radius: 10px;
+    margin: 10px 0;
+    outline: none;
+    position: relative;
+    min-width: 100%;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    width: 0.4em;
+    height: 0.4em;
+    background-color: #fff;
+    border-radius: 50%;
+    transform: scale(2.2)
+}
+.cbox {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+    </style>
+</head>
+<body>
+    <div class="outer">
+        <div class="inner">
+            <img src="/img.jpg?" onload="autoRefresh(this)">
+            <label for="auto" class="cbox"><input type="checkbox" id="auto" checked> Auto-Refresh</label>
+        </div>
+        <form action="/setcfg" method="GET" id='cfgform'>
+            <select name="res">
+                <optgroup label="Frame size"></optgroup>
+                <option value="0">VGA 640x480</option>
+                <option value="1">QVGA 320x240</option>
+                <option value="2">QQVGA 160x120</option>
+                <option value="3">QQVGA2 128x160</option>
+                <option value="4" selected>CIF 352x288</option>
+                <option value="5">SIF 352x240</option>
+                <option value="6">B128 128X128</option>
+                <option value="7">B64 64X64</option>
+            </select>
+            <select name="color">
+                <optgroup label="Pixel format"></optgroup>
+                <option value="0">RGB</option>
+                <option value="1">BW</option>
+                <option value="2">YUV</option>
+            </select><br>
+            <select name="filter1">
+                <optgroup label="Filter 1"></optgroup>
+                <option value="0">None</option>
+                <option value="1">Gaussian</option>
+                <option value="2">HistEq</option>
+                <option value="3">Mean 3x3</option>
+                <option value="4">Mean 5x5</option>
+                <option value="5">Erode(2)</option>
+                <option value="6">Dilate(2)</option>
+                <option value="7">Chrominvar</option>
+                <option value="8">illuminvar</option>
+            </select>
+            <select name="filter2">
+                <optgroup label="Filter 2"></optgroup>
+                <option value="0">None</option>
+                <option value="1">Gaussian</option>
+                <option value="2">HistEq</option>
+                <option value="3">Mean 3x3</option>
+                <option value="4">Mean 5x5</option>
+                <option value="5">Erode(2)</option>
+                <option value="6">Dilate(2)</option>
+                <option value="7">Chrominvar</option>
+                <option value="8">Illuminvar</option>
+            </select>
+            <select name="nn">
+                <optgroup label="AI Post-processing"></optgroup>
+                <option value="0">None</option>
+                <option value="1">Face-detection</option>
+            </select>
+            <div class="sliders">
+                Contrast: <input type="range" name="contrast" min="0" max="20" value="10">
+                Brightness: <input type="range" name="bright" min="-10" max="10" value="0">
+                Saturation: <input type="range" name="sat" min="-2" max="2" value="0">
+                Gainceiling: <input type="range" name="gain" min="1" max="7" value="3">
+                Flashlight: <input type="range" name="flash" min="0" max="255" value="0">
+            </div>
+        </form>
+    </div>
+    <script>
+        auto.onclick = () => autoRefresh(document.querySelector('img'))
+        function autoRefresh(img) {
+            if (!auto.checked) return
+            img.src = img.src.replace(/\?.*/, '?'+ new Date().getTime())
+        }
+        function updateCfg() {
+            cfgform.submit()
+        }
+        function setConfig() {
+            sel = document.querySelectorAll('select,input[type=range]')
+            for(a in arguments) {
+                sel[a].value = arguments[a]
+            }
+            sel.forEach(x => x.onchange=updateCfg)
+        }
+    </script>
+    <script src="/getcfg"></script>
+</body>
+</html>
