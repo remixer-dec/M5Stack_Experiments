@@ -1,4 +1,4 @@
-## Accelerometer-controlled QWERTY keyboard for M5StickC with MPU6050 hardware  
+## Accelerometer-controlled QWERTY keyboard for M5StickC 
 
 ![Demo](https://i.imgur.com/vmyJVCq.gif)
   

@@ -14,8 +14,9 @@ class Keyboard:
         lcd.font(lcd.FONT_Small)
 
     def loop(self):
-        from hardware import mpu6050
-        mpu = mpu6050.MPU6050()
+        from libs.imu import IMU #from hardware import mpu6050
+        mpu = IMU() #mpu = mpu6050.MPU6050()
+        
         maxX = 80.0
         maxY = 160.0
         accel = [0.0, 0.0]

@@ -1,7 +1,18 @@
 import sensor
 import image
-from modules import ws2812
-LED = class_ws2812 = ws2812(8,1)
+
+try:
+    from modules import ws2812
+except ImportError:
+    class ws2812():
+        def __init__(self, p1, p2):
+            pass
+        def set_led(self, a, b):
+            pass
+        def display(self):
+            pass
+
+LED = ws2812(8,1)
 
 RES = [sensor.VGA, sensor.QVGA, sensor.QQVGA, sensor.QQVGA2, sensor.CIF, sensor.SIF, sensor.B128X128, sensor.B64X64]
 CLR = [sensor.RGB565, sensor.GRAYSCALE, sensor.YUV422]
@@ -81,13 +92,16 @@ class Camera:
 
 class Action:
     def takePhoto():
-        pic = Camera.shoot()
-        uart.send(b'picIncoming\n')
-        picb = pic.compress().to_bytes()
-        uart.send(str(len(picb)) + "\n")
-        uart.send(picb)
-        del pic
-        del picb
+        try:
+            pic = Camera.shoot()
+            uart.send(b'picIncoming\n')
+            picb = pic.compress().to_bytes()
+            uart.send(str(len(picb)) + "\n")
+            uart.send(picb)
+            del pic
+            del picb
+        except MemoryError:
+            print('NOT ENOUGH RAM, IT WAS ENOUGH IN PREVIOUS VERSIONS OF THIS FIRMWARE')
 
     def setConfig():
         while not uart.uart.any() > 0:
