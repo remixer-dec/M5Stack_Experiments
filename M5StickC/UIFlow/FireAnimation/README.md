@@ -1,6 +1,7 @@
 I saw fire animation project for m5StickC written in C by MajorSnags and decided to implement it in Micropython.  
 C Project Source: https://m5stack.hackster.io/MajorSnags/m5stickc-flame-demo-ee6672  
 Original Source: https://lodev.org/cgtutor/fire.html  
+Forks: [optimized version](https://projects.om-office.de/frans/m5stickc_multitool/-/blob/main/fire.py) by [frans-fuerst](https://github.com/frans-fuerst)
 
 ![Demo](https://i.imgur.com/ruA7uP6.gif)
 
